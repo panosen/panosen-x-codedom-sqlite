@@ -4,11 +4,12 @@ import com.panosen.codedom.CodeWriter;
 import com.panosen.codedom.Marks;
 import com.panosen.codedom.sqlite.Batch;
 import com.panosen.codedom.sqlite.BatchInsertSql;
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.builder.BatchInsertSqlBuilder;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class BatchInsertSqlEngine {
@@ -19,17 +20,17 @@ public class BatchInsertSqlEngine {
         StringWriter stringWriter = new StringWriter();
         CodeWriter codeWriter = new CodeWriter(stringWriter);
 
-        Parameters parameters = new Parameters();
+        List<Object> parameters = new ArrayList<>();
 
         generate(batchInsertSqlBuilder.getBatchInsertSql(), codeWriter, parameters);
 
         generationResponse.setSql(stringWriter.toString());
-        generationResponse.setParameters(parameters);
+        generationResponse.setArgs(parameters.toArray());
 
         return generationResponse;
     }
 
-    private void generate(BatchInsertSql batchInsertSql, CodeWriter codeWriter, Parameters parameters) {
+    private void generate(BatchInsertSql batchInsertSql, CodeWriter codeWriter, List<Object> parameters) {
 
         if (batchInsertSql.getBatchList() == null || batchInsertSql.getBatchList().isEmpty()) {
             return;
@@ -78,7 +79,7 @@ public class BatchInsertSqlEngine {
         codeWriter.write(Marks.SEMICOLON);
     }
 
-    private void xxxxx(CodeWriter codeWriter, Parameters parameters,
+    private void xxxxx(CodeWriter codeWriter, List<Object> parameters,
                        Map<String, Integer> columnMap, Map<String, Object> values) {
 
         //(

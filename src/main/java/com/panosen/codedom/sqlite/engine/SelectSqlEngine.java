@@ -2,10 +2,14 @@ package com.panosen.codedom.sqlite.engine;
 
 import com.panosen.codedom.CodeWriter;
 import com.panosen.codedom.Marks;
-import com.panosen.codedom.sqlite.*;
+import com.panosen.codedom.sqlite.GroupBy;
+import com.panosen.codedom.sqlite.Having;
+import com.panosen.codedom.sqlite.OrderBy;
+import com.panosen.codedom.sqlite.SelectSql;
 import com.panosen.codedom.sqlite.builder.SelectSqlBuilder;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectSqlEngine extends SqlEngine {
@@ -16,17 +20,17 @@ public class SelectSqlEngine extends SqlEngine {
         StringWriter stringWriter = new StringWriter();
         CodeWriter codeWriter = new CodeWriter(stringWriter);
 
-        Parameters parameters = new Parameters();
+        List<Object> parameters = new ArrayList<>();
 
         generate(selectSqlBuilder.getSelectSql(), codeWriter, parameters);
 
         generationResponse.setSql(stringWriter.toString());
-        generationResponse.setParameters(parameters);
+        generationResponse.setArgs(parameters.toArray());
 
         return generationResponse;
     }
 
-    public void generate(SelectSql selectSql, CodeWriter codeWriter, Parameters parameters) {
+    public void generate(SelectSql selectSql, CodeWriter codeWriter, List<Object> parameters) {
         // select
         codeWriter.write(Keywords.SELECT).write(Marks.WHITESPACE);
 
@@ -96,7 +100,7 @@ public class SelectSqlEngine extends SqlEngine {
         }
     }
 
-    private void generateGroupBy(GroupBy groupBy, CodeWriter codeWriter, Parameters parameters) {
+    private void generateGroupBy(GroupBy groupBy, CodeWriter codeWriter, List<Object> parameters) {
         if (groupBy == null) {
             return;
         }
@@ -112,7 +116,7 @@ public class SelectSqlEngine extends SqlEngine {
         }
     }
 
-    private void generateHaving(Having having, CodeWriter codeWriter, Parameters parameters) {
+    private void generateHaving(Having having, CodeWriter codeWriter, List<Object> parameters) {
         codeWriter.write(Marks.WHITESPACE).write(Keywords.HAVING).write(Marks.WHITESPACE);
         generateCondition(having.getCondition(), codeWriter, parameters, false);
     }

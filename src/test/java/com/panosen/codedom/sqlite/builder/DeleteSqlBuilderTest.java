@@ -1,12 +1,9 @@
 package com.panosen.codedom.sqlite.builder;
 
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.engine.DeleteSqlEngine;
 import com.panosen.codedom.sqlite.engine.GenerationResponse;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.sql.Types;
 
 public class DeleteSqlBuilderTest {
 
@@ -31,12 +28,12 @@ public class DeleteSqlBuilderTest {
 
         GenerationResponse generationResponse = new DeleteSqlEngine().generate(deleteSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
         String expected = "delete from `student` where `id` = ?;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(1, parameters.size());
-        Assert.assertEquals(13, parameters.get(0).getValue());
+        Assert.assertEquals(1, parameters.length);
+        Assert.assertEquals(13, parameters[0]);
     }
 
     @Test
@@ -54,16 +51,16 @@ public class DeleteSqlBuilderTest {
 
         GenerationResponse generationResponse = new DeleteSqlEngine().generate(deleteSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
         String expected = "delete from `student` where `m` = ? and `n` != ? and `a` > ? and `b` >= ? and `c` < ? and `d` <= ?;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(6, parameters.size());
-        Assert.assertEquals(7, parameters.get(0).getValue());
-        Assert.assertEquals(9, parameters.get(1).getValue());
-        Assert.assertEquals(15, parameters.get(2).getValue());
-        Assert.assertEquals(17, parameters.get(3).getValue());
-        Assert.assertEquals(19, parameters.get(4).getValue());
-        Assert.assertEquals(21, parameters.get(5).getValue());
+        Assert.assertEquals(6, parameters.length);
+        Assert.assertEquals(7, parameters[0]);
+        Assert.assertEquals(9, parameters[1]);
+        Assert.assertEquals(15, parameters[2]);
+        Assert.assertEquals(17, parameters[3]);
+        Assert.assertEquals(19, parameters[4]);
+        Assert.assertEquals(21, parameters[5]);
     }
 }

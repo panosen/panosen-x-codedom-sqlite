@@ -1,14 +1,12 @@
 package com.panosen.codedom.sqlite.builder;
 
 import com.panosen.codedom.sqlite.MustConditions;
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.ShouldConditions;
 import com.panosen.codedom.sqlite.engine.GenerationResponse;
 import com.panosen.codedom.sqlite.engine.SelectSqlEngine;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.sql.Types;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,12 +24,12 @@ public class SelectSqlBuilderWhereTest {
 
         GenerationResponse generationResponse = new SelectSqlEngine().generate(selectSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
 
         String expected = "select * from `student` where `age` = ? limit 10, 15;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(1, parameters.size());
+        Assert.assertEquals(1, parameters.length);
     }
 
     @Test
@@ -47,12 +45,12 @@ public class SelectSqlBuilderWhereTest {
 
         GenerationResponse generationResponse = new SelectSqlEngine().generate(selectSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
 
         String expected = "select * from `student` where `x` = ? and `y` = ? limit 10, 15;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(2, parameters.size());
+        Assert.assertEquals(2, parameters.length);
     }
 
     @Test
@@ -72,16 +70,16 @@ public class SelectSqlBuilderWhereTest {
 
         GenerationResponse generationResponse = new SelectSqlEngine().generate(selectSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
 
         String expected = "select * from `student` where (`x` = ? or `y` = ?) and (`a` = ? or `b` = ?) limit 10, 15;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(4, parameters.size());
-        Assert.assertEquals(12, parameters.get(0).getValue());
-        Assert.assertEquals(13, parameters.get(1).getValue());
-        Assert.assertEquals(14, parameters.get(2).getValue());
-        Assert.assertEquals(15, parameters.get(3).getValue());
+        Assert.assertEquals(4, parameters.length);
+        Assert.assertEquals(12, parameters[0]);
+        Assert.assertEquals(13, parameters[1]);
+        Assert.assertEquals(14, parameters[2]);
+        Assert.assertEquals(15, parameters[3]);
     }
 
     @Test
@@ -101,16 +99,16 @@ public class SelectSqlBuilderWhereTest {
 
         GenerationResponse generationResponse = new SelectSqlEngine().generate(selectSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
 
         String expected = "select * from `student` where (`x` = ? and `y` = ?) or (`a` = ? and `b` = ?) limit 10, 15;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(4, parameters.size());
-        Assert.assertEquals(12, parameters.get(0).getValue());
-        Assert.assertEquals(13, parameters.get(1).getValue());
-        Assert.assertEquals(14, parameters.get(2).getValue());
-        Assert.assertEquals(15, parameters.get(3).getValue());
+        Assert.assertEquals(4, parameters.length);
+        Assert.assertEquals(12, parameters[0]);
+        Assert.assertEquals(13, parameters[1]);
+        Assert.assertEquals(14, parameters[2]);
+        Assert.assertEquals(15, parameters[3]);
     }
 
     @Test
@@ -125,14 +123,14 @@ public class SelectSqlBuilderWhereTest {
 
         GenerationResponse generationResponse = new SelectSqlEngine().generate(selectSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
 
         String expected = "select * from `student` where `age` in (?, ?) limit 10, 15;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(2, parameters.size());
-        Assert.assertEquals(12, parameters.get(0).getValue());
-        Assert.assertEquals(13, parameters.get(1).getValue());
+        Assert.assertEquals(2, parameters.length);
+        Assert.assertEquals(12, parameters[0]);
+        Assert.assertEquals(13, parameters[1]);
     }
 
     @Test
@@ -147,14 +145,14 @@ public class SelectSqlBuilderWhereTest {
 
         GenerationResponse generationResponse = new SelectSqlEngine().generate(selectSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
 
         String expected = "select * from `student` where `age` in (?, ?) limit 10, 15;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(2, parameters.size());
-        Assert.assertEquals(12, parameters.get(0).getValue());
-        Assert.assertEquals(13, parameters.get(1).getValue());
+        Assert.assertEquals(2, parameters.length);
+        Assert.assertEquals(12, parameters[0]);
+        Assert.assertEquals(13, parameters[1]);
     }
 
     @Test
@@ -169,14 +167,14 @@ public class SelectSqlBuilderWhereTest {
 
         GenerationResponse generationResponse = new SelectSqlEngine().generate(selectSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
 
         String expected = "select * from `student` where `age` in (?, ?) limit 10, 15;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(2, parameters.size());
-        Assert.assertEquals("A", parameters.get(0).getValue());
-        Assert.assertEquals("B", parameters.get(1).getValue());
+        Assert.assertEquals(2, parameters.length);
+        Assert.assertEquals("A", parameters[0]);
+        Assert.assertEquals("B", parameters[1]);
     }
 
     @Test
@@ -193,13 +191,13 @@ public class SelectSqlBuilderWhereTest {
 
         GenerationResponse generationResponse = new SelectSqlEngine().generate(selectSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
 
         String expected = "select * from `student` where `name` in (?, ?) limit 10, 15;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(2, parameters.size());
-        Assert.assertEquals("A", parameters.get(0).getValue());
-        Assert.assertEquals("B", parameters.get(1).getValue());
+        Assert.assertEquals(2, parameters.length);
+        Assert.assertEquals("A", parameters[0]);
+        Assert.assertEquals("B", parameters[1]);
     }
 }

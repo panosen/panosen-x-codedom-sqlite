@@ -1,12 +1,9 @@
 package com.panosen.codedom.sqlite.builder;
 
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.engine.GenerationResponse;
 import com.panosen.codedom.sqlite.engine.SelectSqlEngine;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.sql.Types;
 
 public class SelectSqlBuilderGroupByTest {
 
@@ -41,10 +38,10 @@ public class SelectSqlBuilderGroupByTest {
         String expected = "select * from `student` group by `name`, `age` having `a` = ?;";
         Assert.assertEquals(expected, actual);
 
-        Parameters parameters = response.getParameters();
+        Object[] parameters = response.getArgs();
 
-        Assert.assertEquals(1, parameters.size());
-        Assert.assertEquals(14, parameters.get(0).getValue());
+        Assert.assertEquals(1, parameters.length);
+        Assert.assertEquals(14, parameters[0]);
     }
 
 }

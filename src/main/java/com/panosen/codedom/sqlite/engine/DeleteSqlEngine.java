@@ -3,10 +3,11 @@ package com.panosen.codedom.sqlite.engine;
 import com.panosen.codedom.CodeWriter;
 import com.panosen.codedom.Marks;
 import com.panosen.codedom.sqlite.DeleteSql;
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.builder.DeleteSqlBuilder;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteSqlEngine extends SqlEngine {
 
@@ -16,17 +17,17 @@ public class DeleteSqlEngine extends SqlEngine {
         StringWriter stringWriter = new StringWriter();
         CodeWriter codeWriter = new CodeWriter(stringWriter);
 
-        Parameters parameters = new Parameters();
+        List<Object> parameters = new ArrayList<>();
 
         generate(deleteSqlBuilder.getDeleteSql(), codeWriter, parameters);
 
         generationResponse.setSql(stringWriter.toString());
-        generationResponse.setParameters(parameters);
+        generationResponse.setArgs(parameters.toArray());
 
         return generationResponse;
     }
 
-    private void generate(DeleteSql deleteSql, CodeWriter codeWriter, Parameters parameters) {
+    private void generate(DeleteSql deleteSql, CodeWriter codeWriter, List<Object> parameters) {
 
         // delete from
         codeWriter.write(Keywords.DELETE).write(Marks.WHITESPACE).write(Keywords.FROM).write(Marks.WHITESPACE);

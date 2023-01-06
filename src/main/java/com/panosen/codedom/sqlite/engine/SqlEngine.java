@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class SqlEngine {
 
-    protected void generateWhere(Where where, CodeWriter codeWriter, Parameters parameters) {
+    protected void generateWhere(Where where, CodeWriter codeWriter, List<Object> parameters) {
         if (where == null || where.getCondition() == null) {
             return;
         }
@@ -19,7 +19,7 @@ public abstract class SqlEngine {
         generateCondition(where.getCondition(), codeWriter, parameters, false);
     }
 
-    protected void generateCondition(Condition condition, CodeWriter codeWriter, Parameters parameters, boolean parenthesis) {
+    protected void generateCondition(Condition condition, CodeWriter codeWriter, List<Object> parameters, boolean parenthesis) {
         if (condition == null) {
             return;
         }
@@ -61,15 +61,15 @@ public abstract class SqlEngine {
         }
     }
 
-    private void generateMustConditions(MustConditions mustConditions, CodeWriter codeWriter, Parameters parameters, boolean parenthesis) {
+    private void generateMustConditions(MustConditions mustConditions, CodeWriter codeWriter, List<Object> parameters, boolean parenthesis) {
         generateConditions(mustConditions.getConditionList(), codeWriter, parameters, Keywords.AND, parenthesis);
     }
 
-    private void generateShoudConditions(ShouldConditions shouldConditions, CodeWriter codeWriter, Parameters parameters, boolean parenthesis) {
+    private void generateShoudConditions(ShouldConditions shouldConditions, CodeWriter codeWriter, List<Object> parameters, boolean parenthesis) {
         generateConditions(shouldConditions.getConditionList(), codeWriter, parameters, Keywords.OR, parenthesis);
     }
 
-    private void generateConditions(List<Condition> conditionList, CodeWriter codeWriter, Parameters parameters, String logicalOperator, boolean parenthesis) {
+    private void generateConditions(List<Condition> conditionList, CodeWriter codeWriter, List<Object> parameters, String logicalOperator, boolean parenthesis) {
         if (conditionList == null || conditionList.isEmpty()) {
             return;
         }
@@ -94,31 +94,31 @@ public abstract class SqlEngine {
         }
     }
 
-    private void generateEqualCondition(EqualCondition equalCondition, CodeWriter codeWriter, Parameters parameters) {
+    private void generateEqualCondition(EqualCondition equalCondition, CodeWriter codeWriter, List<Object> parameters) {
         generateSimpleCondition(equalCondition, codeWriter, parameters, Marks.EQUAL);
     }
 
-    private void generateNotEqualCondition(NotEqualCondition notEqualCondition, CodeWriter codeWriter, Parameters parameters) {
+    private void generateNotEqualCondition(NotEqualCondition notEqualCondition, CodeWriter codeWriter, List<Object> parameters) {
         generateSimpleCondition(notEqualCondition, codeWriter, parameters, Marks.NOT_EQUAL);
     }
 
-    private void generateGtCondition(GtCondition gtCondition, CodeWriter codeWriter, Parameters parameters) {
+    private void generateGtCondition(GtCondition gtCondition, CodeWriter codeWriter, List<Object> parameters) {
         generateSimpleCondition(gtCondition, codeWriter, parameters, Marks.GREATER_THAN);
     }
 
-    private void generateGteCondition(GteCondition gteCondition, CodeWriter codeWriter, Parameters parameters) {
+    private void generateGteCondition(GteCondition gteCondition, CodeWriter codeWriter, List<Object> parameters) {
         generateSimpleCondition(gteCondition, codeWriter, parameters, Marks.GREATER_EQUAL_THAN);
     }
 
-    private void generateLtCondition(LtCondition ltCondition, CodeWriter codeWriter, Parameters parameters) {
+    private void generateLtCondition(LtCondition ltCondition, CodeWriter codeWriter, List<Object> parameters) {
         generateSimpleCondition(ltCondition, codeWriter, parameters, Marks.LESS_THAN);
     }
 
-    private void generateLteCondition(LteCondition lteCondition, CodeWriter codeWriter, Parameters parameters) {
+    private void generateLteCondition(LteCondition lteCondition, CodeWriter codeWriter, List<Object> parameters) {
         generateSimpleCondition(lteCondition, codeWriter, parameters, Marks.LESS_EQUAL_THAN);
     }
 
-    private void generateSimpleCondition(SimpleCondition simpleCondition, CodeWriter codeWriter, Parameters parameters, String mathOperator) {
+    private void generateSimpleCondition(SimpleCondition simpleCondition, CodeWriter codeWriter, List<Object> parameters, String mathOperator) {
         codeWriter.write(Marks.BACKQUOTE).write(simpleCondition.getFieldName()).write(Marks.BACKQUOTE)
                 .write(Marks.WHITESPACE)
                 .write(mathOperator)
@@ -127,7 +127,7 @@ public abstract class SqlEngine {
         parameters.add(simpleCondition.getValue());
     }
 
-    private void generateInCondition(InCondition inCondition, CodeWriter codeWriter, Parameters parameters) {
+    private void generateInCondition(InCondition inCondition, CodeWriter codeWriter, List<Object> parameters) {
         codeWriter.write(Marks.BACKQUOTE).write(inCondition.getFieldName()).write(Marks.BACKQUOTE)
                 .write(Marks.WHITESPACE)
                 .write(Keywords.IN)

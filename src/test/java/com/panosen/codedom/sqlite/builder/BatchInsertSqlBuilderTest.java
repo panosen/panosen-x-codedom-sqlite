@@ -1,12 +1,12 @@
 package com.panosen.codedom.sqlite.builder;
 
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.engine.BatchInsertSqlEngine;
 import com.panosen.codedom.sqlite.engine.GenerationResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.Types;
+import java.util.List;
 
 public class BatchInsertSqlBuilderTest {
 
@@ -33,15 +33,12 @@ public class BatchInsertSqlBuilderTest {
 
         Assert.assertEquals(expected, actual);
 
-        Parameters parameters = generationResponse.getParameters();
-        Assert.assertEquals(4, parameters.size());
+        Object[] parameters = generationResponse.getArgs();
+        Assert.assertEquals(4, parameters.length);
 
-        Assert.assertEquals("zhangsan", parameters.get(0).getValue());
-
-        Assert.assertEquals(17, parameters.get(1).getValue());
-
-        Assert.assertEquals("lisi", parameters.get(2).getValue());
-
-        Assert.assertEquals(19, parameters.get(3).getValue());
+        Assert.assertEquals("zhangsan", parameters[0]);
+        Assert.assertEquals(17, parameters[1]);
+        Assert.assertEquals("lisi", parameters[2]);
+        Assert.assertEquals(19, parameters[3]);
     }
 }

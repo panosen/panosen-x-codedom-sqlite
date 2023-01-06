@@ -1,12 +1,9 @@
 package com.panosen.codedom.sqlite.builder;
 
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.engine.UpdateSqlEngine;
 import com.panosen.codedom.sqlite.engine.GenerationResponse;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.sql.Types;
 
 public class UpdateSqlBuilderTest {
 
@@ -23,13 +20,13 @@ public class UpdateSqlBuilderTest {
 
         GenerationResponse generationResponse = new UpdateSqlEngine().generate(updateSqlBuilder);
         String actual = generationResponse.getSql();
-        Parameters parameters = generationResponse.getParameters();
+        Object[] parameters = generationResponse.getArgs();
         String expected = "update `student` set `age` = ?, `value` = ? where `id` = ?;";
 
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(3, parameters.size());
-        Assert.assertEquals(17, parameters.get(0).getValue());
-        Assert.assertEquals(19, parameters.get(1).getValue());
-        Assert.assertEquals(13, parameters.get(2).getValue());
+        Assert.assertEquals(3, parameters.length);
+        Assert.assertEquals(17, parameters[0]);
+        Assert.assertEquals(19, parameters[1]);
+        Assert.assertEquals(13, parameters[2]);
     }
 }

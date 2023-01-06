@@ -1,12 +1,10 @@
 package com.panosen.codedom.sqlite.engine;
 
-import com.panosen.codedom.sqlite.Parameters;
-
 public class GenerationResponse {
 
     private String sql;
 
-    private Parameters parameters;
+    private Object[] args;
 
     public String getSql() {
         return sql;
@@ -16,11 +14,11 @@ public class GenerationResponse {
         this.sql = sql;
     }
 
-    public Parameters getParameters() {
-        return parameters;
+    public Object[] getArgs() {
+        return args;
     }
 
-    public void setParameters(Parameters parameters) {
-        this.parameters = parameters;
+    public void setArgs(Object[] args) {
+        this.args = args;
     }
 }

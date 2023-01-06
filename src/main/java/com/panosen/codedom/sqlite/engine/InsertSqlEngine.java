@@ -3,10 +3,11 @@ package com.panosen.codedom.sqlite.engine;
 import com.panosen.codedom.CodeWriter;
 import com.panosen.codedom.Marks;
 import com.panosen.codedom.sqlite.InsertSql;
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.builder.InsertSqlBuilder;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InsertSqlEngine {
 
@@ -16,17 +17,17 @@ public class InsertSqlEngine {
         StringWriter stringWriter = new StringWriter();
         CodeWriter codeWriter = new CodeWriter(stringWriter);
 
-        Parameters parameters = new Parameters();
+        List<Object> parameters = new ArrayList<>();
 
         generate(insertSqlBuilder.getInsertSql(), codeWriter, parameters);
 
         generationResponse.setSql(stringWriter.toString());
-        generationResponse.setParameters(parameters);
+        generationResponse.setArgs(parameters.toArray());
 
         return generationResponse;
     }
 
-    private void generate(InsertSql insertSql, CodeWriter codeWriter, Parameters parameters) {
+    private void generate(InsertSql insertSql, CodeWriter codeWriter, List<Object> parameters) {
 
         //insert into
         codeWriter.write(Keywords.INSERT).write(Marks.WHITESPACE).write(Keywords.INTO).write(Marks.WHITESPACE);

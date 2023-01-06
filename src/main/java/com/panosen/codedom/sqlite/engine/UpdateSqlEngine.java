@@ -2,13 +2,14 @@ package com.panosen.codedom.sqlite.engine;
 
 import com.panosen.codedom.CodeWriter;
 import com.panosen.codedom.Marks;
-import com.panosen.codedom.sqlite.Parameters;
 import com.panosen.codedom.sqlite.Statement;
 import com.panosen.codedom.sqlite.Statements;
 import com.panosen.codedom.sqlite.UpdateSql;
 import com.panosen.codedom.sqlite.builder.UpdateSqlBuilder;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UpdateSqlEngine extends SqlEngine {
 
@@ -18,17 +19,17 @@ public class UpdateSqlEngine extends SqlEngine {
         StringWriter stringWriter = new StringWriter();
         CodeWriter codeWriter = new CodeWriter(stringWriter);
 
-        Parameters parameters = new Parameters();
+        List<Object> parameters = new ArrayList<>();
 
         generate(updateSqlBuilder.getUpdateSql(), codeWriter, parameters);
 
         generationResponse.setSql(stringWriter.toString());
-        generationResponse.setParameters(parameters);
+        generationResponse.setArgs(parameters.toArray());
 
         return generationResponse;
     }
 
-    private void generate(UpdateSql updateSql, CodeWriter codeWriter, Parameters parameters) {
+    private void generate(UpdateSql updateSql, CodeWriter codeWriter, List<Object> parameters) {
 
         // update
         codeWriter.write(Keywords.UPDATE).write(Marks.WHITESPACE);
@@ -45,7 +46,7 @@ public class UpdateSqlEngine extends SqlEngine {
         codeWriter.write(Marks.SEMICOLON);
     }
 
-    private void generateStatements(Statements statements, CodeWriter codeWriter, Parameters parameters) {
+    private void generateStatements(Statements statements, CodeWriter codeWriter, List<Object> parameters) {
         if (statements == null) {
             return;
         }
