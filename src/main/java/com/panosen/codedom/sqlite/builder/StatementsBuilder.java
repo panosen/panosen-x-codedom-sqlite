@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class StatementsBuilder {
 
-    private final Statements statements;
+    private final Statements statements = new Statements();
 
-    public StatementsBuilder(Statements statements) {
-        this.statements = statements;
+    public Statements getStatements() {
+        return statements;
     }
 
     public StatementsBuilder set(String fieldName, Object value) {

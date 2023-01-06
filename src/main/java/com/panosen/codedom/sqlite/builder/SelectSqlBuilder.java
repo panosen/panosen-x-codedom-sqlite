@@ -3,7 +3,6 @@ package com.panosen.codedom.sqlite.builder;
 import com.panosen.codedom.sqlite.GroupBy;
 import com.panosen.codedom.sqlite.OrderBy;
 import com.panosen.codedom.sqlite.SelectSql;
-import com.panosen.codedom.sqlite.Where;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,14 +71,14 @@ public class SelectSqlBuilder {
     }
 
     public GroupByBuilder groupBy() {
-        GroupBy groupBy = new GroupBy();
-        selectSql.setGroupBy(groupBy);
-        return new GroupByBuilder(groupBy);
+        GroupByBuilder groupByBuilder = new GroupByBuilder();
+        selectSql.setGroupBy(groupByBuilder.getGroupBy());
+        return groupByBuilder;
     }
 
-    public WhereBuilder where() {
-        Where where = new Where();
-        selectSql.setWhere(where);
-        return new WhereBuilder(where);
+    public ConditionsBuilder where() {
+        ConditionsBuilder conditionsBuilder = new ConditionsBuilder();
+        selectSql.setWhere(conditionsBuilder.getConditionStatement());
+        return conditionsBuilder;
     }
 }

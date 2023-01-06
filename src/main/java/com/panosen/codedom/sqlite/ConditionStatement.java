@@ -1,6 +1,6 @@
 package com.panosen.codedom.sqlite;
 
-public abstract class ConditionStatement {
+public class ConditionStatement {
 
     private Condition condition;
 

@@ -2,8 +2,8 @@ package com.panosen.codedom.sqlite.engine;
 
 import com.panosen.codedom.CodeWriter;
 import com.panosen.codedom.Marks;
+import com.panosen.codedom.sqlite.ConditionStatement;
 import com.panosen.codedom.sqlite.GroupBy;
-import com.panosen.codedom.sqlite.Having;
 import com.panosen.codedom.sqlite.OrderBy;
 import com.panosen.codedom.sqlite.SelectSql;
 import com.panosen.codedom.sqlite.builder.SelectSqlBuilder;
@@ -116,9 +116,9 @@ public class SelectSqlEngine extends SqlEngine {
         }
     }
 
-    private void generateHaving(Having having, CodeWriter codeWriter, List<Object> parameters) {
+    private void generateHaving(ConditionStatement having, CodeWriter codeWriter, List<Object> parameters) {
         codeWriter.write(Marks.WHITESPACE).write(Keywords.HAVING).write(Marks.WHITESPACE);
-        generateCondition(having.getCondition(), codeWriter, parameters, false);
+        new ConditionsEngine().generate(having.getCondition(), codeWriter, parameters, false);
     }
 
     private void generateGroupByColumns(List<String> columnNames, CodeWriter codeWriter) {

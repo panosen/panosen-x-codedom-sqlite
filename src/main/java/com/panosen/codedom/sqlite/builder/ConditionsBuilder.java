@@ -2,12 +2,12 @@ package com.panosen.codedom.sqlite.builder;
 
 import com.panosen.codedom.sqlite.*;
 
-public abstract class ConditionStatementBuilder {
+public class ConditionsBuilder {
 
-    private final ConditionStatement conditionStatement;
+    private final ConditionStatement conditionStatement = new ConditionStatement();
 
-    public ConditionStatementBuilder(ConditionStatement conditionStatement) {
-        this.conditionStatement = conditionStatement;
+    public ConditionStatement getConditionStatement() {
+        return conditionStatement;
     }
 
     public MustConditions must() {
